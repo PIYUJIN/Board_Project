@@ -7,4 +7,11 @@
     </style>
 
     <style name="Theme.Board_Project" parent="Base.Theme.Board_Project" />
+
+    <style name="AppTheme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/app_icon</item>
+        <item name="windowSplashScreenAnimationDuration">1</item>
+        <item name="postSplashScreenTheme">@style/Theme.Board_Project</item>
+    </style>
 </resources>
