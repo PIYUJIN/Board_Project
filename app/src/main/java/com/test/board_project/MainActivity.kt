@@ -10,15 +10,27 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.test.board_project.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    companion object{
+        val LOGIN_FRAGMENT = "LoginFragment"
+    }
+
+    lateinit var activityMainBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val splashScreen = installSplashScreen()
         splashScreenCustomizing(splashScreen)
 
-        setContentView(R.layout.activity_main)
+        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityMainBinding.root)
+
+        replaceFragment(LOGIN_FRAGMENT,false,null)
     }
 
     // SplashScreen 커스터마이징
@@ -54,5 +66,36 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.start()
             }
         }
+    }
+
+    // 지정한 Fragment를 보여주는 메서드
+    fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){
+        // Fragment 교체 상태로 설정한다.
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        // 새로운 Fragment를 담을 변수
+        var newFragment = when(name){
+            LOGIN_FRAGMENT -> LoginFragment()
+            else -> Fragment()
+        }
+
+        newFragment.arguments = bundle
+
+        if(newFragment != null) {
+            // Fragment를 교채한다.
+            fragmentTransaction.replace(R.id.mainContainer, newFragment)
+
+            if (addToBackStack == true) {
+                // Fragment를 Backstack에 넣어 이전으로 돌아가는 기능이 동작할 수 있도록 한다.
+                fragmentTransaction.addToBackStack(name)
+            }
+
+            // 교체 명령이 동작하도록 한다.
+            fragmentTransaction.commit()
+        }
+    }
+
+    // Fragment를 BackStack에서 제거한다.
+    fun removeFragment(name:String){
+        supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }
