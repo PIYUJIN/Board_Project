@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         val LOGIN_FRAGMENT = "LoginFragment"
+        val JOIN_FRAGMENT = "JoinFragment"
     }
 
     lateinit var activityMainBinding: ActivityMainBinding
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         // 새로운 Fragment를 담을 변수
         var newFragment = when(name){
             LOGIN_FRAGMENT -> LoginFragment()
+            JOIN_FRAGMENT -> JoinFragment()
             else -> Fragment()
         }
 
