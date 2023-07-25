@@ -33,6 +33,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:hint="아이디"
+                android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/person_24px">
 
@@ -52,6 +53,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:hint="비밀번호"
+                android:transitionGroup="true"
                 app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/key_24px">
 
@@ -71,6 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:hint="비밀번호 확인"
+                android:transitionGroup="true"
                 app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/key_24px">
 

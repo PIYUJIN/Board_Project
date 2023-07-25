@@ -33,6 +33,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:hint="닉네임"
+                android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/badge_24px">
 
@@ -52,6 +53,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:hint="나이"
+                android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/timer_24px">
 
