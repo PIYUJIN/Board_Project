@@ -12,6 +12,7 @@ import android.view.animation.AnticipateInterpolator
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.test.board_project.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var activityMainBinding: ActivityMainBinding
+    var newFragment: Fragment? = null
+    var oldFragment: Fragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,18 +77,48 @@ class MainActivity : AppCompatActivity() {
     fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        // newFragment 에 Fragment가 들어있으면 oldFragment에 넣어준다.
+        if(newFragment != null){
+            oldFragment = newFragment
+        }
+
         // 새로운 Fragment를 담을 변수
-        var newFragment = when(name){
+        newFragment = when(name){
             LOGIN_FRAGMENT -> LoginFragment()
             JOIN_FRAGMENT -> JoinFragment()
             else -> Fragment()
         }
 
-        newFragment.arguments = bundle
+        newFragment?.arguments = bundle
 
         if(newFragment != null) {
-            // Fragment를 교채한다.
-            fragmentTransaction.replace(R.id.mainContainer, newFragment)
+
+            // 애니메이션 설정
+            // forward : true -> 첫번째 화면에서 다음 화면으로 넘어가는 경우
+
+            // oldFragment -> newFragment로 이동
+            // oldFramgent : exit
+            // newFragment : enter
+
+            // oldFragment <- newFragment 로 되돌아가기
+            // oldFragment : reenter
+            // newFragment : return
+
+            if(oldFragment != null){
+                oldFragment?.exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                oldFragment?.reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                oldFragment?.enterTransition = null
+                oldFragment?.returnTransition = null
+            }
+
+            newFragment?.exitTransition = null
+            newFragment?.reenterTransition = null
+            newFragment?.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+            newFragment?.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+
+            // Fragment 교체
+            fragmentTransaction.replace(R.id.mainContainer, newFragment!!)
 
             if (addToBackStack == true) {
                 // Fragment를 Backstack에 넣어 이전으로 돌아가는 기능이 동작할 수 있도록 한다.
@@ -96,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Fragment를 BackStack에서 제거한다.
+    // Fragment BackStack에서 제거
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
