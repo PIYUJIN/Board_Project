@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.board_project.MainActivity.Companion.ADD_USER_INFO_FRAGMENT
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
 import com.test.board_project.databinding.FragmentJoinBinding
 
@@ -41,6 +42,9 @@ class JoinFragment : Fragment() {
                 setNavigationOnClickListener {
                     mainActivity.removeFragment(JOIN_FRAGMENT)
                 }
+            }
+            buttonNext.setOnClickListener {
+                mainActivity.replaceFragment(ADD_USER_INFO_FRAGMENT,true,null)
             }
         }
         return fragmentJoinBinding.root
