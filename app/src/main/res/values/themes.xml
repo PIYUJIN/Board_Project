@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/material_dynamic_primary40</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
     <style name="Theme.Board_Project" parent="Base.Theme.Board_Project" />
