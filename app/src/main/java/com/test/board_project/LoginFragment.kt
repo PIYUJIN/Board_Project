@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.board_project.MainActivity.Companion.BOARD_MAIN_FRAGMENT
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
-import com.test.board_project.MainActivity.Companion.MAIN_FRAGMENT
 import com.test.board_project.databinding.FragmentLoginBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
             }
 
             buttonLogin.setOnClickListener {
-                mainActivity.replaceFragment(MAIN_FRAGMENT, true, null)
+                mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, true, null)
             }
 
             buttonJoin.setOnClickListener {
