@@ -42,8 +42,54 @@ class BoardMainFragment : Fragment() {
 
                 // 헤더설정
                 val headerBoardMainBinding = HeaderBoardMainBinding.inflate(inflater)
-                headerBoardMainBinding.textViewHeaderBoardMainNickName.text  = "홍길동님"
+                headerBoardMainBinding.textViewHeaderBoardMainNickName.text  = "pujin님"
                 addHeaderView(headerBoardMainBinding.root)
+
+                // 항목 선택시 동작
+                setNavigationItemSelectedListener {
+
+                    // 누른 메뉴를 체크상태로 설정해두는 경우
+//                    it.isChecked = true
+
+                    when(it.itemId) {
+                        R.id.item_board_all -> {
+
+                        }
+
+                        R.id.item_board_freetalk -> {
+
+                        }
+
+                        R.id.item_board_humor -> {
+
+                        }
+
+                        R.id.item_board_question -> {
+
+                        }
+
+                        R.id.item_board_sports -> {
+
+                        }
+
+                        R.id.item_user_info -> {
+
+                        }
+
+                        R.id.item_logout -> {
+
+                        }
+
+                        R.id.item_sign_out -> {
+
+                        }
+                    }
+
+                    // navigation 닫아주기
+                    drawerLayoutBoardMain.close()
+
+                    true
+                }
             }
         }
 
