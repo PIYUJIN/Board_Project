@@ -3,16 +3,35 @@
     <style name="Base.Theme.Board_Project" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/material_dynamic_primary40</item>
-        <item name="android:textColorPrimary">@color/white</item>
+
+        <!-- 모든 UI 요소의 기본 색상 -->
+                <item name="colorPrimary">@color/material_dynamic_primary40</item>
+        <!-- 상단 상태바 색상 -->
+                <item name="colorPrimaryDark">@color/material_dynamic_tertiary99</item>
+        <!-- 상태바의 색상의 밝은 색이므로 그에 맞는 색상으로 정보를 보여줘~~ -->
+                <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Board_Project" parent="Base.Theme.Board_Project" />
 
+    <style name="Theme.Mini02.Toolbar" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorPrimary">@color/material_dynamic_tertiary99</item>
+    </style>
+
     <style name="AppTheme.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/app_icon</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/app_icon
+        </item>
         <item name="windowSplashScreenAnimationDuration">1</item>
         <item name="postSplashScreenTheme">@style/Theme.Board_Project</item>
     </style>
+
+    <style name="Theme.Board_Project.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Board_Project.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Board_Project.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
