@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_main_board"
+        android:title="게시판">
+        <menu>
+            <item
+                android:id="@+id/item_board_all"
+                android:icon="@drawable/menu_24px"
+                android:title="전체 게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_freetalk"
+                android:icon="@drawable/assignment_24px"
+                android:title="자유 게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_humor"
+                android:icon="@drawable/ar_on_you_24px"
+                android:title="유머 게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_question"
+                android:icon="@drawable/quiz_24px"
+                android:title="질문 게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_sports"
+                android:icon="@drawable/sports_volleyball_24px"
+                android:title="스포츠 게시판"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>
