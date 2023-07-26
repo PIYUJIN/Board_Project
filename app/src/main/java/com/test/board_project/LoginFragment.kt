@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
+import com.test.board_project.MainActivity.Companion.MAIN_FRAGMENT
 import com.test.board_project.databinding.FragmentLoginBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,6 +39,10 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.run{
             toolbarLogin.run {
                 title = "로그인"
+            }
+
+            buttonLogin.setOnClickListener {
+                mainActivity.replaceFragment(MAIN_FRAGMENT, true, null)
             }
 
             buttonJoin.setOnClickListener {
