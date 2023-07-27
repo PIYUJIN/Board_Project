@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.test.board_project.databinding.FragmentBoardMainBinding
 import com.test.board_project.databinding.HeaderBoardMainBinding
 
@@ -18,6 +20,14 @@ class BoardMainFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var fragmentBoardMainBinding: FragmentBoardMainBinding
+
+    var newFragment:Fragment? = null
+    var oldFragment:Fragment? = null
+
+    companion object{
+        val POST_LIST_FRAGMENT = "PostListFragment"
+        val MODIFY_USER_FRAGMENT = "ModifyUserFragment"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,35 +63,41 @@ class BoardMainFragment : Fragment() {
 
                     when(it.itemId) {
                         R.id.item_board_all -> {
-
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_freetalk -> {
-
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_humor -> {
-
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_question -> {
-
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_sports -> {
-
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_user_info -> {
-
+                            replaceFragment(MODIFY_USER_FRAGMENT, false, false, null)
+                            drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_logout -> {
-
+                            mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT, false, null)
                         }
 
                         R.id.item_sign_out -> {
-
+                            mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT, false, null)
                         }
                     }
 
@@ -94,6 +110,71 @@ class BoardMainFragment : Fragment() {
         }
 
         return fragmentBoardMainBinding.root
+    }
+
+    // 지정한 Fragment를 보여주는 메서드
+    fun replaceFragment(name:String, addToBackStack:Boolean, animate:Boolean, bundle:Bundle?){
+        // Fragment 교체 상태로 설정
+        val fragmentTransaction = mainActivity.supportFragmentManager.beginTransaction()
+
+        // newFragment에 Fragment가 있는 경우 oldFragment에 넣어준다.
+        if(newFragment != null){
+            oldFragment = newFragment
+        }
+
+        newFragment = when(name){
+            POST_LIST_FRAGMENT -> PostListFragment()
+            MODIFY_USER_FRAGMENT -> ModifyUserFragment()
+            else -> Fragment()
+        }
+
+        newFragment?.arguments = bundle
+
+        if(newFragment != null) {
+
+            if(animate) {
+                // 애니메이션 설정
+                if (oldFragment != null) {
+                    oldFragment?.exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                    oldFragment?.reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                    oldFragment?.enterTransition = null
+                    oldFragment?.returnTransition = null
+                }
+
+                newFragment?.exitTransition = null
+                newFragment?.reenterTransition = null
+                newFragment?.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                newFragment?.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+            } else {
+                if (oldFragment != null) {
+                    oldFragment?.exitTransition = null
+                    oldFragment?.reenterTransition = null
+                    oldFragment?.enterTransition = null
+                    oldFragment?.returnTransition = null
+                }
+
+                newFragment?.exitTransition = null
+                newFragment?.reenterTransition = null
+                newFragment?.enterTransition = null
+                newFragment?.returnTransition = null
+            }
+
+            // Fragment 교체
+            fragmentTransaction.replace(R.id.boardMainContainer, newFragment!!)
+
+            if (addToBackStack) {
+                // Fragment를 Backstack에 넣어 이전으로 돌아가는 기능이 동작할 수 있도록 한다.
+                fragmentTransaction.addToBackStack(name)
+            }
+
+            // 교체 명령이 동작
+            fragmentTransaction.commit()
+        }
+    }
+
+    // Fragment BackStack에서 제거
+    fun removeFragment(name:String) {
+        mainActivity.supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 }
