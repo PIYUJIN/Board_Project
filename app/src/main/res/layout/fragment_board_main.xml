@@ -25,6 +25,12 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/Theme.Mini02.Toolbar" />
 
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/boardMainContainer"
+                android:name="com.test.board_project.PostListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
