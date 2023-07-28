@@ -115,6 +115,10 @@ class PostListFragment : Fragment() {
             init{
                 rowPostListSubject = rowPostListBinding.rowPostListSubject
                 rowPostListNickName = rowPostListBinding.rowPostListNickName
+
+                rowPostListBinding.root.setOnClickListener {
+                    mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
+                }
             }
         }
 
