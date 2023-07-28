@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.databinding.FragmentAddUserInfoBinding
 
 
@@ -37,13 +38,27 @@ class AddUserInfoFragment : Fragment() {
                 }
 
                 setNavigationOnClickListener {
-                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
                 }
             }
 
+            textInputEditTextAddUserInfoUserName.run {
+                requestFocus()
+            }
+
             buttonCompleteJoin.setOnClickListener {
-                mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
-                mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                if(textInputEditTextAddUserInfoUserName.text.toString() == "" || textInputEditTextAddUserInfoUserAge.text.toString() == "") {
+                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                        setTitle("회원가입 입력 오류")
+                        setMessage("닉네임이나 나이가 입력되어 있지 않습니다.")
+
+                        setPositiveButton("확인", null)
+                    }
+                    builder.show()
+                } else {
+                    mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                }
             }
         }
         return fragmentAddUserInfoBinding.root
