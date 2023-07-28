@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
+import com.test.board_project.MainActivity.Companion.POST_WRITE_FRAGMENT
 import com.test.board_project.databinding.FragmentPostWriteBinding
 
 class PostWriteFragment : Fragment() {
@@ -38,7 +39,7 @@ class PostWriteFragment : Fragment() {
                 }
 
                 setNavigationOnClickListener {
-                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                    mainActivity.removeFragment(POST_WRITE_FRAGMENT)
                 }
 
                 inflateMenu(R.menu.menu_post_write)

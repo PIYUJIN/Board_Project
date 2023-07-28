@@ -38,7 +38,8 @@ class PostReadFragment : Fragment() {
                 }
 
                 setNavigationOnClickListener {
-                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.POST_WRITE_FRAGMENT)
                 }
 
                 inflateMenu(R.menu.menu_post_read)
