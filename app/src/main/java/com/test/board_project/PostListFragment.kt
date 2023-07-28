@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.test.board_project.databinding.FragmentPostListBinding
 import com.test.board_project.databinding.RowPostListBinding
 
@@ -26,14 +27,27 @@ class PostListFragment : Fragment() {
 
         fragmentPostListBinding.run{
 
+            searchBarPostList.run{
+                hint = "검색어를 입력해주세요"
+                inflateMenu(R.menu.menu_post_list)
+            }
+
+            searchViewPostList.run{
+                hint = "검색어를 입력해주세요"
+            }
+
             recyclerViewPostListAll.run{
                 adapter = AllREcyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
+                // divider 설정
+                addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
 
             recyclerViewPostListResult.run{
                 adapter = ResultRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
+                // divider 설정
+                addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
         }
 
