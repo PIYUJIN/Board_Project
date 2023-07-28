@@ -7,6 +7,7 @@ import android.animation.PropertyValuesHolder
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -79,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
     // 지정한 Fragment를 보여주는 메서드
     fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){
+
+        SystemClock.sleep(200)
+
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
