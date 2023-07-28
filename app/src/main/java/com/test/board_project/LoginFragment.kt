@@ -1,5 +1,6 @@
 package com.test.board_project
 
+import android.content.DialogInterface
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -10,20 +11,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.MainActivity.Companion.BOARD_MAIN_FRAGMENT
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
 import com.test.board_project.databinding.FragmentLoginBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
@@ -41,8 +33,35 @@ class LoginFragment : Fragment() {
                 title = "로그인"
             }
 
+            textInputEditTextLoginUserPassword.run {
+                setOnEditorActionListener { v, actionId, event ->
+                    if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
+                        val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                            setTitle("로그인 입력 오류")
+                            setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
+
+                            setPositiveButton("확인", null)
+                        }
+                        builder.show()
+                    } else {
+                        mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
+                    }
+                    false
+                }
+            }
+
             buttonLogin.setOnClickListener {
-                mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
+                if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
+                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                        setTitle("로그인 입력 오류")
+                        setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
+
+                        setPositiveButton("확인", null)
+                    }
+                    builder.show()
+                } else {
+                    mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
+                }
             }
 
             buttonJoin.setOnClickListener {
