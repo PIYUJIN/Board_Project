@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.MainActivity.Companion.ADD_USER_INFO_FRAGMENT
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
 import com.test.board_project.databinding.FragmentJoinBinding
@@ -43,11 +44,48 @@ class JoinFragment : Fragment() {
                     mainActivity.removeFragment(JOIN_FRAGMENT)
                 }
             }
+
+            textInputEditTextJoinUserId.run {
+                requestFocus()
+            }
+
+            textInputEditTextJoinUserPasswordCheck.run {
+                setOnEditorActionListener { v, actionId, event ->
+                    checkText()
+                    false
+                }
+            }
+
             buttonNext.setOnClickListener {
-                mainActivity.replaceFragment(ADD_USER_INFO_FRAGMENT,true,null)
+                checkText()
             }
         }
         return fragmentJoinBinding.root
     }
 
+    fun checkText() {
+        fragmentJoinBinding.run {
+            if(textInputEditTextJoinUserId.text.toString() == "" || textInputEditTextJoinUserPassword.text.toString() == "" || textInputEditTextJoinUserPasswordCheck.text.toString() == "") {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("회원가입 입력 오류")
+                    setMessage("ID나 비밀번호가 입력되어 있지 않습니다.")
+
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            }
+            else if(textInputEditTextJoinUserPassword.text.toString() != textInputEditTextJoinUserPasswordCheck.text.toString()) {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("회원가입 비밀번호 오류")
+                    setMessage("비밀번호가 일치하지 않습니다.")
+
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            }
+            else {
+                mainActivity.replaceFragment(ADD_USER_INFO_FRAGMENT,true,null)
+            }
+        }
+    }
 }
