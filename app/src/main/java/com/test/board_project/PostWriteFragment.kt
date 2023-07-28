@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
 import com.test.board_project.databinding.FragmentPostWriteBinding
 
 class PostWriteFragment : Fragment() {
@@ -41,6 +42,22 @@ class PostWriteFragment : Fragment() {
                 }
 
                 inflateMenu(R.menu.menu_post_write)
+
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.item_post_write_camera -> {
+
+                        }
+                        R.id.item_post_write_album -> {
+
+                        }
+                        R.id.item_post_write_done -> {
+                            mainActivity.replaceFragment(POST_READ_FRAGMENT,true,null)
+                        }
+                    }
+
+                    true
+                }
             }
         }
         return fragmentPostWriteBinding.root

@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         val ADD_USER_INFO_FRAGMENT = "AddUserInfoFragment"
         val BOARD_MAIN_FRAGMENT = "BoardMainFragment"
         val POST_WRITE_FRAGMENT = "PostWriteFragment"
+        val POST_READ_FRAGMENT = "PostReadFragment"
     }
 
     lateinit var activityMainBinding: ActivityMainBinding
@@ -93,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             ADD_USER_INFO_FRAGMENT -> AddUserInfoFragment()
             BOARD_MAIN_FRAGMENT -> BoardMainFragment()
             POST_WRITE_FRAGMENT -> PostWriteFragment()
+            POST_READ_FRAGMENT -> PostReadFragment()
             else -> Fragment()
         }
 
