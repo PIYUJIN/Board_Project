@@ -15,7 +15,9 @@
         android:id="@+id/recyclerViewPostListAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="90dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="10dp" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/searchViewPostList"
