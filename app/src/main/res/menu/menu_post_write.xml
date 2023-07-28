@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/item_post_write_camera"
+        android:icon="@drawable/photo_camera_24px"
+        android:title="카메라"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_post_write_album"
+        android:icon="@drawable/photo_library_24px"
+        android:title="앨범"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_post_write_done"
+        android:icon="@drawable/done_24px"
+        android:title="완료"
+        app:showAsAction="always" />
 </menu>
