@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
 import com.test.board_project.databinding.FragmentPostListBinding
 import com.test.board_project.databinding.RowPostListBinding
 
@@ -74,6 +75,10 @@ class PostListFragment : Fragment() {
             init{
                 rowPostListSubject = rowPostListBinding.rowPostListSubject
                 rowPostListNickName = rowPostListBinding.rowPostListNickName
+
+                rowPostListBinding.root.setOnClickListener {
+                    mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
+                }
             }
         }
 
