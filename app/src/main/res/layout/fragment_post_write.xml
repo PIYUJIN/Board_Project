@@ -29,6 +29,9 @@
                 android:id="@+id/textInputLayoutPostWriteSubject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
                 android:hint="제목"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
@@ -38,9 +41,37 @@
                     android:id="@+id/textInputEditTextPostWriteSubject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="삭제"
                     android:inputType="text|textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPostWriteContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:hint="내용"
+                android:transitionGroup="true"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/subject_24px">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextPostWriteContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/imageViewPostWrite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/app_icon_foreground" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
