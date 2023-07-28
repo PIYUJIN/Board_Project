@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
             }
 
             buttonLogin.setOnClickListener {
-                mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, true, null)
+                mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
             }
 
             buttonJoin.setOnClickListener {

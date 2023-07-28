@@ -30,6 +30,16 @@ class PostListFragment : Fragment() {
             searchBarPostList.run{
                 hint = "검색어를 입력해주세요"
                 inflateMenu(R.menu.menu_post_list)
+
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.item_post_list_add -> {
+                            mainActivity.replaceFragment(MainActivity.POST_WRITE_FRAGMENT, true, null)
+                        }
+                    }
+
+                    true
+                }
             }
 
             searchViewPostList.run{
