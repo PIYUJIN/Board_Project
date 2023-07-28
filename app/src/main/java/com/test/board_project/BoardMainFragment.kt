@@ -104,9 +104,11 @@ class BoardMainFragment : Fragment() {
                     // navigation 닫아주기
                     drawerLayoutBoardMain.close()
 
-                    true
+                    false
                 }
             }
+
+            replaceFragment(POST_LIST_FRAGMENT,false,false,null)
         }
 
         return fragmentBoardMainBinding.root
