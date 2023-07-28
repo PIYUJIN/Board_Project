@@ -56,7 +56,8 @@ class PostReadFragment : Fragment() {
                             }
                         }
                         R.id.item_post_read_delete -> {
-
+                            mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
+                            mainActivity.removeFragment(MainActivity.POST_WRITE_FRAGMENT)
                         }
                     }
 
