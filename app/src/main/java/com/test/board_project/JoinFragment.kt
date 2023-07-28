@@ -34,9 +34,9 @@ class JoinFragment : Fragment() {
                 setNavigationIcon(R.drawable.arrow_back_24px)
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                    navigationIcon?.colorFilter = BlendModeColorFilter(Color.WHITE, BlendMode.SRC_ATOP)
+                    navigationIcon?.colorFilter = BlendModeColorFilter(Color.DKGRAY, BlendMode.SRC_ATOP)
                 } else {
-                    navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+                    navigationIcon?.setColorFilter(Color.DKGRAY, PorterDuff.Mode.SRC_ATOP)
                 }
 
                 setNavigationOnClickListener {
