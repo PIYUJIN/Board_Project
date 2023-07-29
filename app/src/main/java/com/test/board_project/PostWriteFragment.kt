@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
 import com.test.board_project.MainActivity.Companion.POST_WRITE_FRAGMENT
 import com.test.board_project.databinding.FragmentPostWriteBinding
@@ -53,12 +54,25 @@ class PostWriteFragment : Fragment() {
 
                         }
                         R.id.item_post_write_done -> {
-                            mainActivity.replaceFragment(POST_READ_FRAGMENT,true,null)
+                            if(textInputEditTextPostWriteSubject.text.toString() == "" || textInputEditTextPostWriteContent.text.toString() == "") {
+                                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                                    setTitle("게시글 작성 입력 오류")
+                                    setMessage("게시글 제목이나 내용이 입력되어 있지 않습니다.")
+
+                                    setPositiveButton("확인", null)
+                                }
+                                builder.show()
+                            } else {
+                                mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
+                            }
                         }
                     }
 
                     true
                 }
+            }
+            textInputEditTextPostWriteSubject.run {
+                requestFocus()
             }
         }
         return fragmentPostWriteBinding.root
