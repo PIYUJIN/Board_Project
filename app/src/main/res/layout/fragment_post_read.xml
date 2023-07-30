@@ -34,6 +34,7 @@
                 android:layout_marginRight="10dp"
                 android:hint="제목"
                 android:transitionGroup="true"
+                app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/topic_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -54,6 +55,7 @@
                 android:layout_marginRight="10dp"
                 android:hint="내용"
                 android:transitionGroup="true"
+                app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/subject_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -74,6 +76,16 @@
             android:layout_marginRight="10dp"
             android:adjustViewBounds="true"
             android:src="@mipmap/app_icon_foreground" />
+
+            <Button
+                android:id="@+id/buttonModifyPost"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="수정 완료" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
