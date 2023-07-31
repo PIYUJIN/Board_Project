@@ -1,5 +1,6 @@
 package com.test.board_project
 
+import android.content.DialogInterface
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -47,15 +48,31 @@ class AddUserInfoFragment : Fragment() {
             }
 
             buttonCompleteJoin.setOnClickListener {
-                if(textInputEditTextAddUserInfoUserName.text.toString() == "" || textInputEditTextAddUserInfoUserAge.text.toString() == "") {
+                var userName = textInputEditTextAddUserInfoUserName.text.toString()
+                var userAge = textInputEditTextAddUserInfoUserAge.text.toString()
+                if(userName.isEmpty()) {
                     val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                         setTitle("회원가입 입력 오류")
-                        setMessage("닉네임이나 나이가 입력되어 있지 않습니다.")
+                        setMessage("닉네임이 입력되어 있지 않습니다.")
 
-                        setPositiveButton("확인", null)
+                        setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextAddUserInfoUserName)
+                        }
                     }
                     builder.show()
-                } else {
+                }
+                else if(userAge.isEmpty()) {
+                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                        setTitle("회원가입 입력 오류")
+                        setMessage("나이가 입력되어 있지 않습니다.")
+
+                        setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextAddUserInfoUserAge)
+                        }
+                    }
+                    builder.show()
+                }
+                else {
                     mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
                     mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
                 }

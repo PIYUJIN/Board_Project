@@ -29,6 +29,7 @@ class JoinFragment : Fragment() {
         fragmentJoinBinding = FragmentJoinBinding.inflate(inflater)
 
         fragmentJoinBinding.run {
+            mainActivity.showSoftInput(textInputEditTextJoinUserId)
             toolbarJoin.run {
                 title = "회원가입"
 
@@ -65,19 +66,40 @@ class JoinFragment : Fragment() {
 
     fun checkText() {
         fragmentJoinBinding.run {
-            if(textInputEditTextJoinUserId.text.toString() == "" || textInputEditTextJoinUserPassword.text.toString() == "" || textInputEditTextJoinUserPasswordCheck.text.toString() == "") {
+            var userId = textInputEditTextJoinUserId.text.toString()
+            var userPassword = textInputEditTextJoinUserPassword.text.toString()
+            var userPasswordCheck = textInputEditTextJoinUserPasswordCheck.text.toString()
+            if(userId.isEmpty()) {
                 val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                     setTitle("회원가입 입력 오류")
-                    setMessage("ID나 비밀번호가 입력되어 있지 않습니다.")
+                    setMessage("ID가 입력되어 있지 않습니다.")
 
                     setPositiveButton("확인", null)
                 }
                 builder.show()
             }
-            else if(textInputEditTextJoinUserPassword.text.toString() != textInputEditTextJoinUserPasswordCheck.text.toString()) {
+            else if(userPassword.isEmpty()) {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("회원가입 입력 오류")
+                    setMessage("PASSWORD가 입력되어 있지 않습니다.")
+
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            }
+            else if(userPasswordCheck.isEmpty()) {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("회원가입 입력 오류")
+                    setMessage("비밀번호 확인이 입력되어 있지 않습니다.")
+
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            }
+            else if(userPassword != userPasswordCheck) {
                 val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                     setTitle("회원가입 비밀번호 오류")
-                    setMessage("비밀번호가 일치하지 않습니다.")
+                    setMessage("PASSWORD가 일치하지 않습니다.")
 
                     setPositiveButton("확인", null)
                 }
