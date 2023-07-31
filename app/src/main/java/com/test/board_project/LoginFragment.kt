@@ -55,15 +55,27 @@ class LoginFragment : Fragment() {
 
     fun loginSubmit() {
         fragmentLoginBinding.run {
-            if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
+            var userId = textInputEditTextLoginUserId.text.toString()
+            var userPassword = textInputEditTextLoginUserPassword.text.toString()
+            if(userId.isEmpty()) {
                 val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                     setTitle("로그인 입력 오류")
-                    setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
+                    setMessage("ID가 입력되어 있지 않습니다.")
 
                     setPositiveButton("확인", null)
                 }
                 builder.show()
-            } else {
+            }
+            else if(userPassword.isEmpty()) {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("로그인 입력 오류")
+                    setMessage("PASSWORD가 입력되어 있지 않습니다.")
+
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            }
+            else {
                 mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
             }
         }
