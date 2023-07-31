@@ -1,5 +1,6 @@
 package com.test.board_project
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,21 +25,44 @@ class ModifyUserFragment : Fragment() {
 
         fragmentModifyUserBinding.run {
             buttonModifyUserInfoAccept.setOnClickListener {
-                if(textInputEditTextModifyUserPassword.text.toString() != textInputEditTextModifyUserPasswordCheck.text.toString()) {
-                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
-                        setTitle("개인 정보 수정 비밀번호 오류")
-                        setMessage("비밀번호가 일치하지 않습니다.")
+                var modifyUserPW = textInputEditTextModifyUserPassword.text.toString()
+                var modifyUserPWCheck = textInputEditTextModifyUserPasswordCheck.text.toString()
+                var modifyUserName = textInputEditTextModifyUserInfoUserName.text.toString()
+                var modifyUserAge = textInputEditTextModifyUserInfoUserAge.text.toString()
+                if(modifyUserPW.isNotEmpty() || modifyUserPWCheck.isNotEmpty()) {
+                    if (modifyUserPW != modifyUserPWCheck) {
+                        val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                            setTitle("개인 정보 수정 비밀번호 오류")
+                            setMessage("비밀번호가 일치하지 않습니다.")
 
-                        setPositiveButton("확인", null)
+                            setPositiveButton("확인", null)
+                        }
+                        builder.show()
+                    }
+                    else {
+                        val t1 = Toast.makeText(mainActivity,"비밀번호 수정이 완료되었습니다.", Toast.LENGTH_LONG)
+                        t1.show()
+                    }
+                }
+                else if(modifyUserName.isEmpty()) {
+                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                        setTitle("개인 정보 수정 입력 오류")
+                        setMessage("닉네임이 입력되어 있지 않습니다.")
+
+                        setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextModifyUserInfoUserName)
+                        }
                     }
                     builder.show()
                 }
-                else if(textInputEditTextModifyUserInfoUserName.text.toString() == "" || textInputEditTextModifyUserInfoUserAge.text.toString() == "") {
+                else if(modifyUserAge.isEmpty()) {
                     val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                         setTitle("개인 정보 수정 입력 오류")
-                        setMessage("닉네임이나 나이가 입력되어 있지 않습니다.")
+                        setMessage("나이가 입력되어 있지 않습니다.")
 
-                        setPositiveButton("확인", null)
+                        setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextModifyUserInfoUserAge)
+                        }
                     }
                     builder.show()
                 }
