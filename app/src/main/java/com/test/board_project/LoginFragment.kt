@@ -35,33 +35,13 @@ class LoginFragment : Fragment() {
 
             textInputEditTextLoginUserPassword.run {
                 setOnEditorActionListener { v, actionId, event ->
-                    if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
-                        val builder = MaterialAlertDialogBuilder(mainActivity).apply {
-                            setTitle("로그인 입력 오류")
-                            setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
-
-                            setPositiveButton("확인", null)
-                        }
-                        builder.show()
-                    } else {
-                        mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
-                    }
-                    false
+                    loginSubmit()
+                    true
                 }
             }
 
             buttonLogin.setOnClickListener {
-                if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
-                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
-                        setTitle("로그인 입력 오류")
-                        setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
-
-                        setPositiveButton("확인", null)
-                    }
-                    builder.show()
-                } else {
-                    mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
-                }
+                loginSubmit()
             }
 
             buttonJoin.setOnClickListener {
@@ -73,6 +53,19 @@ class LoginFragment : Fragment() {
 
     }
 
+    fun loginSubmit() {
+        fragmentLoginBinding.run {
+            if(textInputEditTextLoginUserId.text.toString() == "" || textInputEditTextLoginUserPassword.text.toString() == "") {
+                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                    setTitle("로그인 입력 오류")
+                    setMessage("ID나 PASSWORD가 입력되어 있지 않습니다.")
 
-
+                    setPositiveButton("확인", null)
+                }
+                builder.show()
+            } else {
+                mainActivity.replaceFragment(BOARD_MAIN_FRAGMENT, false, null)
+            }
+        }
+    }
 }
