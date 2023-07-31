@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.databinding.FragmentAddUserInfoBinding
 
@@ -47,6 +49,48 @@ class AddUserInfoFragment : Fragment() {
                 requestFocus()
             }
 
+            // 취미 전체 체크박스
+            materialCheckBoxAddUserInfoAll.run{
+                // b : materialCheckBoxAddUserInfoAll
+                setOnCheckedChangeListener { compoundButton, b ->
+                    // 각 체크박스를 가지고 있는 레이아웃을 통해 그 안에 있는 View들의 체크상태를 변경한다.
+                    for(v1 in materialCheckBoxGroupUserInfo1.children){
+                        // 형변환
+                        v1 as MaterialCheckBox
+                        // 취미 전체가 체크 되어 있다면
+                        if(b){
+                            v1.checkedState = MaterialCheckBox.STATE_CHECKED
+                        } else {
+                            v1.checkedState = MaterialCheckBox.STATE_UNCHECKED
+                        }
+                    }
+
+                    for(v1 in materialCheckBoxGroupUserInfo2.children){
+                        // 형변환
+                        v1 as MaterialCheckBox
+                        // 취미 전체가 체크 되어 있다면
+                        if(b){
+                            v1.checkedState = MaterialCheckBox.STATE_CHECKED
+                        } else {
+                            v1.checkedState = MaterialCheckBox.STATE_UNCHECKED
+                        }
+                    }
+                }
+            }
+
+            for(v1 in materialCheckBoxGroupUserInfo1.children){
+                v1 as MaterialCheckBox
+                v1.setOnCheckedChangeListener { compoundButton, b ->
+                    setParentCheckBoxState()
+                }
+            }
+            for(v1 in materialCheckBoxGroupUserInfo2.children){
+                v1 as MaterialCheckBox
+                v1.setOnCheckedChangeListener { compoundButton, b ->
+                    setParentCheckBoxState()
+                }
+            }
+
             buttonCompleteJoin.setOnClickListener {
                 var userName = textInputEditTextAddUserInfoUserName.text.toString()
                 var userAge = textInputEditTextAddUserInfoUserAge.text.toString()
@@ -79,5 +123,42 @@ class AddUserInfoFragment : Fragment() {
             }
         }
         return fragmentAddUserInfoBinding.root
+    }
+
+    // 하위의 체크박스 상태로 상위 체크 박스 상태 설정
+    fun setParentCheckBoxState(){
+        fragmentAddUserInfoBinding.run {
+            // 체크박스 개수
+            val checkBoxCount = materialCheckBoxGroupUserInfo1.childCount + materialCheckBoxGroupUserInfo2.childCount
+
+            // 체크되어 있는 체크박스 개수
+            var checkedCount = 0
+
+            for(v1 in materialCheckBoxGroupUserInfo1.children){
+                v1 as MaterialCheckBox
+                if(v1.checkedState == MaterialCheckBox.STATE_CHECKED){
+                    checkedCount++
+                }
+            }
+            for(v1 in materialCheckBoxGroupUserInfo2.children){
+                v1 as MaterialCheckBox
+                if(v1.checkedState == MaterialCheckBox.STATE_CHECKED){
+                    checkedCount++
+                }
+            }
+
+            // 만약 체크되어 있는 것이 없다면
+            if(checkedCount == 0){
+                materialCheckBoxAddUserInfoAll.checkedState = MaterialCheckBox.STATE_UNCHECKED
+            }
+            // 모두 체크되어 있다면
+            else if(checkedCount == checkBoxCount){
+                materialCheckBoxAddUserInfoAll.checkedState = MaterialCheckBox.STATE_CHECKED
+            }
+            // 일부만 체크되어 있다면
+            else {
+                materialCheckBoxAddUserInfoAll.checkedState = MaterialCheckBox.STATE_INDETERMINATE
+            }
+        }
     }
 }
