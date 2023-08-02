@@ -63,8 +63,16 @@
                     android:inputType="text|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/buttonPostWriteType"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="게시판 타입 선택" />
+
             <ImageView
-                android:id="@+id/imageViewPostWrite"
+                android:id="@+id/imageViewPostWriteImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
