@@ -74,6 +74,20 @@ class PostWriteFragment : Fragment() {
             textInputEditTextPostWriteSubject.run {
                 requestFocus()
             }
+
+            // 게시판 종류 버튼
+            buttonPostWriteType.run{
+                setOnClickListener {
+                    val builder = MaterialAlertDialogBuilder(mainActivity)
+                    builder.setTitle("게시판 종류")
+                    builder.setItems(mainActivity.boardTypeList){ dialogInterface: DialogInterface, i: Int ->
+                        boardType = i + 1
+                        text = mainActivity.boardTypeList[i]
+                    }
+                    builder.setNegativeButton("취소", null)
+                    builder.show()
+                }
+            }
         }
         return fragmentPostWriteBinding.root
     }
