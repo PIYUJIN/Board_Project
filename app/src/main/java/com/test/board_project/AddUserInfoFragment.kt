@@ -14,7 +14,10 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.FirebaseDatabase
 import com.test.board_project.databinding.FragmentAddUserInfoBinding
+import com.test.board_project.repository.UserRepository
 
 
 class AddUserInfoFragment : Fragment() {
@@ -53,11 +56,11 @@ class AddUserInfoFragment : Fragment() {
             materialCheckBoxAddUserInfoAll.run{
                 // b : materialCheckBoxAddUserInfoAll
                 setOnCheckedChangeListener { compoundButton, b ->
-                    // 각 체크박스를 가지고 있는 레이아웃을 통해 그 안에 있는 View들의 체크상태를 변경한다.
+                    // 각 체크박스를 가지고 있는 레이아웃을 통해 그 안에 있는 View 체크상태 변경
                     for(v1 in materialCheckBoxGroupUserInfo1.children){
                         // 형변환
                         v1 as MaterialCheckBox
-                        // 취미 전체가 체크 되어 있다면
+                        // 취미 전체가 체크 되어 있는 경우
                         if(b){
                             v1.checkedState = MaterialCheckBox.STATE_CHECKED
                         } else {
@@ -68,7 +71,7 @@ class AddUserInfoFragment : Fragment() {
                     for(v1 in materialCheckBoxGroupUserInfo2.children){
                         // 형변환
                         v1 as MaterialCheckBox
-                        // 취미 전체가 체크 되어 있다면
+                        // 취미 전체가 체크 되어 있는 경우
                         if(b){
                             v1.checkedState = MaterialCheckBox.STATE_CHECKED
                         } else {
@@ -117,8 +120,40 @@ class AddUserInfoFragment : Fragment() {
                     builder.show()
                 }
                 else {
-                    mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
-                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+
+                    UserRepository.getUserIdx {
+                        // 현재 사용자의 순서값 가져오기
+                        var userIdx = it.result.value as Long
+
+                        val userId = arguments?.getString("UserId")!!
+                        val userPw = arguments?.getString("UserPw")!!
+
+                        userIdx++
+
+                        val userClass = UserClass(
+                            userIdx, userId, userPw, userName, userAge.toLong(),
+                            materialCheckBoxAddUserInfoHobby1.isChecked,
+                            materialCheckBoxAddUserInfoHobby2.isChecked,
+                            materialCheckBoxAddUserInfoHobby3.isChecked,
+                            materialCheckBoxAddUserInfoHobby4.isChecked,
+                            materialCheckBoxAddUserInfoHobby5.isChecked,
+                            materialCheckBoxAddUserInfoHobby6.isChecked
+                        )
+
+
+                        UserRepository.addUserInfo(userClass) {
+                            UserRepository.setUserIdx(userIdx) {
+                                Snackbar.make(
+                                    fragmentAddUserInfoBinding.root,
+                                    "가입이 완료되었습니다",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+
+                                mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
+                                mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                            }
+                        }
+                    }
                 }
             }
         }

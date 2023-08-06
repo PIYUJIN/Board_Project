@@ -10,15 +10,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.board_project.MainActivity.Companion.ADD_USER_INFO_FRAGMENT
 import com.test.board_project.MainActivity.Companion.JOIN_FRAGMENT
 import com.test.board_project.databinding.FragmentJoinBinding
+import com.test.board_project.vm.UserViewModel
 
 class JoinFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var fragmentJoinBinding: FragmentJoinBinding
+
+    lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,20 @@ class JoinFragment : Fragment() {
         // Inflate the layout for this fragment
         mainActivity = activity as MainActivity
         fragmentJoinBinding = FragmentJoinBinding.inflate(inflater)
+
+        userViewModel = ViewModelProvider(mainActivity)[UserViewModel::class.java]
+
+        userViewModel.run {
+            userId.observe(mainActivity) {
+                fragmentJoinBinding.textInputEditTextJoinUserId.setText(it)
+            }
+            userPw.observe(mainActivity) {
+                fragmentJoinBinding.textInputEditTextJoinUserPassword.setText(it)
+            }
+            userPwCheck.observe(mainActivity) {
+                fragmentJoinBinding.textInputEditTextJoinUserPasswordCheck.setText(it)
+            }
+        }
 
         fragmentJoinBinding.run {
             mainActivity.showSoftInput(textInputEditTextJoinUserId)
@@ -53,7 +72,7 @@ class JoinFragment : Fragment() {
             textInputEditTextJoinUserPasswordCheck.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkText()
-                    false
+                    true
                 }
             }
 
@@ -62,6 +81,11 @@ class JoinFragment : Fragment() {
             }
         }
         return fragmentJoinBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.reset()
     }
 
     fun checkText() {
@@ -106,7 +130,11 @@ class JoinFragment : Fragment() {
                 builder.show()
             }
             else {
-                mainActivity.replaceFragment(ADD_USER_INFO_FRAGMENT,true,null)
+                val newBundle = Bundle()
+                newBundle.putString("UserId", userId)
+                newBundle.putString("UserPw", userPassword)
+
+                mainActivity.replaceFragment(ADD_USER_INFO_FRAGMENT,true,newBundle)
             }
         }
     }
