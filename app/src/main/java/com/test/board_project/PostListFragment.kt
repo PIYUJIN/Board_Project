@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
 import com.test.board_project.databinding.FragmentPostListBinding
 import com.test.board_project.databinding.RowPostListBinding
+import com.test.board_project.vm.PostViewModel
 
 class PostListFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var fragmentPostListBinding: FragmentPostListBinding
+
+    lateinit var postViewModel: PostViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +29,13 @@ class PostListFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         fragmentPostListBinding = FragmentPostListBinding.inflate(inflater)
+
+        postViewModel = ViewModelProvider(mainActivity)[PostViewModel::class.java]
+        postViewModel.run{
+            postDataList.observe(mainActivity){
+                fragmentPostListBinding.recyclerViewPostListAll.adapter?.notifyDataSetChanged()
+            }
+        }
 
         fragmentPostListBinding.run{
 
@@ -77,7 +88,11 @@ class PostListFragment : Fragment() {
                 rowPostListNickName = rowPostListBinding.rowPostListNickName
 
                 rowPostListBinding.root.setOnClickListener {
-                    mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
+                    // 항목 번째 글 번호를 가져온다.
+                    val readPostIdx = postViewModel.postDataList.value?.get(adapterPosition)?.postIdx
+                    val newBundle = Bundle()
+                    newBundle.putLong("readPostIdx", readPostIdx!!)
+                    mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT, true, newBundle)
                 }
             }
         }
@@ -95,12 +110,12 @@ class PostListFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 100
+            return postViewModel.postDataList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
-            holder.rowPostListSubject.text = "제목입니다 : $position"
-            holder.rowPostListNickName.text = "작성자 : $position"
+            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
+            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 
@@ -135,12 +150,12 @@ class PostListFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 100
+            return postViewModel.postDataList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-            holder.rowPostListSubject.text = "제목입니다 : $position"
-            holder.rowPostListNickName.text = "작성자 : $position"
+            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
+            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 }
