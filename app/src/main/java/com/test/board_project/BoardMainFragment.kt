@@ -63,27 +63,42 @@ class BoardMainFragment : Fragment() {
 
                     when(it.itemId) {
                         R.id.item_board_all -> {
-                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            toolBarMain.title = "전체게시판"
+                            val newBundle = Bundle()
+                            newBundle.putInt("postType", 0)
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_freetalk -> {
-                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            toolBarMain.title = "자유게시판"
+                            val newBundle = Bundle()
+                            newBundle.putInt("postType", 1)
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_humor -> {
-                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            toolBarMain.title = "유머게시판"
+                            val newBundle = Bundle()
+                            newBundle.putInt("postType", 2)
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_question -> {
-                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            toolBarMain.title = "질문게시판"
+                            val newBundle = Bundle()
+                            newBundle.putInt("postType", 3)
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
 
                         R.id.item_board_sports -> {
-                            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
+                            toolBarMain.title = "스포츠게시판"
+                            val newBundle = Bundle()
+                            newBundle.putInt("postType", 4)
+                            replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
 
@@ -102,13 +117,16 @@ class BoardMainFragment : Fragment() {
                     }
 
                     // navigation 닫아주기
-                    drawerLayoutBoardMain.close()
+//                    drawerLayoutBoardMain.close()
 
                     false
                 }
             }
 
-            replaceFragment(POST_LIST_FRAGMENT,false,false,null)
+            // 첫 화면 설정
+            val newBundle = Bundle()
+            newBundle.putInt("postType", 0)
+            replaceFragment(POST_LIST_FRAGMENT,false,false,newBundle)
         }
 
         return fragmentBoardMainBinding.root
