@@ -1,5 +1,6 @@
 package com.test.board_project
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
@@ -34,6 +35,12 @@ class MainActivity : AppCompatActivity() {
     var newFragment: Fragment? = null
     var oldFragment: Fragment? = null
 
+    // 확인할 권한 목록
+    val permissionList = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_MEDIA_LOCATION,
+        Manifest.permission.INTERNET
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,6 +49,8 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        requestPermissions(permissionList,0)
 
         replaceFragment(LOGIN_FRAGMENT,false,null)
     }
