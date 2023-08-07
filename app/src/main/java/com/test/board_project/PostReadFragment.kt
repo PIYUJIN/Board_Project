@@ -54,7 +54,9 @@ class PostReadFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId) {
                         R.id.item_post_read_modify -> {
+                            toolbarPostRead.title = "게시글 수정"
                             checkModify()
+
                         }
                         R.id.item_post_read_delete -> {
                             mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
@@ -71,6 +73,14 @@ class PostReadFragment : Fragment() {
             }
 
             textInputEditTextPostReadContent.run{
+                setTextColor(Color.BLACK)
+            }
+
+            textInputEditTextPostReadUserName.run{
+                setTextColor(Color.BLACK)
+            }
+
+            textInputEditTextPostReadWriteDate.run{
                 setTextColor(Color.BLACK)
             }
 
@@ -119,6 +129,7 @@ class PostReadFragment : Fragment() {
                     val t1 = Toast.makeText(mainActivity, "게시글 수정 완료", Toast.LENGTH_LONG)
                     t1.show()
 
+                    toolbarPostRead.title = "게시글 보기"
                     buttonModifyPost.visibility = View.GONE
                     textInputEditTextPostReadSubject.isEnabled = false
                     textInputEditTextPostReadContent.isEnabled = false
