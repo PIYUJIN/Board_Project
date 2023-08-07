@@ -130,12 +130,61 @@ class PostReadFragment : Fragment() {
         return fragmentPostReadBinding.root
     }
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        if (v != null) {
+            when (v.id) {
+                R.id.imageViewPostRead -> {
+                    mainActivity.menuInflater.inflate(R.menu.menu_post_modify, menu)
+                }
+            }
+        }
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_post_modify_camera -> {
+                val newIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+                // 사진이 저장될 파일 이름
+                val fileName = "/temp_upload.jpg"
+                // 경로
+                val filePath = mainActivity.getExternalFilesDir(null).toString()
+                // 경로 + 파일이름
+                val picPath = "${filePath}/${fileName}"
+
+                // 사진이 저장될 경로를 관리할 Uri객체를 만들어준다.
+                // 업로드할 때 사용할 Uri이다.
+                val file = File(picPath)
+                uploadUri = FileProvider.getUriForFile(mainActivity,
+                    "com.test.mini02_boardproject02.file_provider", file)
+
+                newIntent.putExtra(MediaStore.EXTRA_OUTPUT, uploadUri)
+                cameraLauncher.launch(newIntent)
+            }
+            R.id.item_post_modify_album -> {
+                val newIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                newIntent.setType("image/*")
+                val mimeType = arrayOf("image/*")
+                newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                albumLauncher.launch(newIntent)
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
     fun checkModify() {
         fragmentPostReadBinding.run {
 
             var postSubject = textInputEditTextPostReadSubject.text.toString()
             var postContent = textInputEditTextPostReadContent.text.toString()
             if(!textInputEditTextPostReadSubject.isEnabled) {
+                registerForContextMenu(imageViewPostRead)
                 buttonModifyPost.visibility = View.VISIBLE
                 textInputEditTextPostReadSubject.isEnabled = true
                 textInputEditTextPostReadContent.isEnabled = true
