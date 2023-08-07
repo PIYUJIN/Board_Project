@@ -86,20 +86,36 @@ class PostReadFragment : Fragment() {
 
     fun checkModify() {
         fragmentPostReadBinding.run {
+
+            var postSubject = textInputEditTextPostReadSubject.text.toString()
+            var postContent = textInputEditTextPostReadContent.text.toString()
             if(!textInputEditTextPostReadSubject.isEnabled) {
                 buttonModifyPost.visibility = View.VISIBLE
                 textInputEditTextPostReadSubject.isEnabled = true
                 textInputEditTextPostReadContent.isEnabled = true
             } else {
-                if(textInputEditTextPostReadSubject.text.toString() == "" || textInputEditTextPostReadContent.text.toString() == "") {
+                if(postSubject.isEmpty()) {
                     val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                         setTitle("게시글 수정 입력 오류")
-                        setMessage("게시글 제목이나 내용이 입력되어 있지 않습니다.")
-
-                        setPositiveButton("확인", null)
+                        setMessage("게시글 제목이 입력되어 있지 않습니다.")
+                        setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextPostReadSubject)
+                        }
                     }
                     builder.show()
-                } else {
+                }
+
+                else if (postContent.isEmpty()) {
+                    val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                        setTitle("게시글 수정 입력 오류")
+                        setMessage("게시글 내용이 입력되어 있지 않습니다.")
+                        setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextPostReadContent)
+                        }
+                    }
+                    builder.show()
+                }
+                else {
                     val t1 = Toast.makeText(mainActivity, "게시글 수정 완료", Toast.LENGTH_LONG)
                     t1.show()
 
