@@ -65,7 +65,7 @@ class BoardMainFragment : Fragment() {
                         R.id.item_board_all -> {
                             toolBarMain.title = "전체게시판"
                             val newBundle = Bundle()
-                            newBundle.putInt("postType", 0)
+                            newBundle.putLong("postType", 0)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
@@ -73,7 +73,7 @@ class BoardMainFragment : Fragment() {
                         R.id.item_board_freetalk -> {
                             toolBarMain.title = "자유게시판"
                             val newBundle = Bundle()
-                            newBundle.putInt("postType", 1)
+                            newBundle.putLong("postType", 1)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
@@ -81,7 +81,7 @@ class BoardMainFragment : Fragment() {
                         R.id.item_board_humor -> {
                             toolBarMain.title = "유머게시판"
                             val newBundle = Bundle()
-                            newBundle.putInt("postType", 2)
+                            newBundle.putLong("postType", 2)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
@@ -89,7 +89,7 @@ class BoardMainFragment : Fragment() {
                         R.id.item_board_question -> {
                             toolBarMain.title = "질문게시판"
                             val newBundle = Bundle()
-                            newBundle.putInt("postType", 3)
+                            newBundle.putLong("postType", 3)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
@@ -97,7 +97,7 @@ class BoardMainFragment : Fragment() {
                         R.id.item_board_sports -> {
                             toolBarMain.title = "스포츠게시판"
                             val newBundle = Bundle()
-                            newBundle.putInt("postType", 4)
+                            newBundle.putLong("postType", 4)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
                             drawerLayoutBoardMain.close()
                         }
@@ -125,7 +125,7 @@ class BoardMainFragment : Fragment() {
 
             // 첫 화면 설정
             val newBundle = Bundle()
-            newBundle.putInt("postType", 0)
+            newBundle.putLong("postType", 0)
             replaceFragment(POST_LIST_FRAGMENT,false,false,newBundle)
         }
 
