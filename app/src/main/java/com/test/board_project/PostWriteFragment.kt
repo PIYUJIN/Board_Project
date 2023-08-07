@@ -41,11 +41,16 @@ class PostWriteFragment : Fragment() {
 
     lateinit var fragmentPostWriteBinding: FragmentPostWriteBinding
     lateinit var mainActivity : MainActivity
+
+    // 게시판 종류 type
+    var boardType = 0
+
     // 업로드할 이미지의 Uri
     var uploadUri: Uri? = null
 
     lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,8 +70,9 @@ class PostWriteFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.arrow_back_24px)
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                    navigationIcon?.colorFilter = BlendModeColorFilter(Color.DKGRAY, BlendMode.SRC_ATOP)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    navigationIcon?.colorFilter =
+                        BlendModeColorFilter(Color.DKGRAY, BlendMode.SRC_ATOP)
                 } else {
                     navigationIcon?.setColorFilter(Color.DKGRAY, PorterDuff.Mode.SRC_ATOP)
                 }
@@ -106,36 +112,103 @@ class PostWriteFragment : Fragment() {
                             newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                             albumLauncher.launch(newIntent)
                         }
+
                         R.id.item_post_write_done -> {
-                            if(textInputEditTextPostWriteSubject.text.toString() == "" || textInputEditTextPostWriteContent.text.toString() == "") {
+
+                            var postSubject = textInputEditTextPostWriteSubject.text.toString()
+                            var postContent = textInputEditTextPostWriteContent.text.toString()
+
+                            if (postSubject.isEmpty()) {
                                 val builder = MaterialAlertDialogBuilder(mainActivity).apply {
                                     setTitle("게시글 작성 입력 오류")
-                                    setMessage("게시글 제목이나 내용이 입력되어 있지 않습니다.")
+                                    setMessage("게시글 제목이 입력되어 있지 않습니다.")
 
-                                    setPositiveButton("확인", null)
+                                    setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                                        mainActivity.showSoftInput(textInputEditTextPostWriteSubject)
+                                    }
                                 }
                                 builder.show()
-                            } else {
-                                mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
+                            }
+
+                            else if (postContent.isEmpty()) {
+                                val builder = MaterialAlertDialogBuilder(mainActivity).apply {
+                                    setTitle("게시글 작성 입력 오류")
+                                    setMessage("게시글 내용이 입력되어 있지 않습니다.")
+
+                                    setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                                        mainActivity.showSoftInput(textInputEditTextPostWriteContent)
+                                    }
+                                }
+                                builder.show()
+                            }
+
+                            else if(boardType == 0) {
+                                val builder = MaterialAlertDialogBuilder(mainActivity)
+                                builder.setTitle("게시판 종류 선택 오류")
+                                builder.setMessage("게시판 종류가 선택되어 있지 않습니다.")
+                                builder.setPositiveButton("확인", null)
+                                builder.show()
+                            }
+
+                            else {
+                                PostRepository.getPostIdx {
+                                    var postIdx = it.result.value as Long
+                                    // 게시글 인덱스를 증가한다.
+                                    postIdx++
+
+                                    // 게시글을 저장한다.
+                                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                    val writeDate = sdf.format(Date(System.currentTimeMillis()))
+
+                                    val fileName = if(uploadUri == null) {
+                                        "None"
+                                    } else {
+                                        "image/img_${System.currentTimeMillis()}.jpg"
+                                    }
+
+                                    val postDataClass = PostDataClass(postIdx, boardType.toLong(), postSubject,
+                                        postContent, writeDate, fileName, mainActivity.loginUserClass.userIdx)
+
+                                    // 게시글 정보 저장
+                                    PostRepository.addPostInfo(postDataClass) {
+                                        // 게시글 인덱스번호 저장
+                                        PostRepository.setPostIdx(postIdx) {
+
+                                            // 글 번호를 번들에 담아준다.
+                                            val newBundle = Bundle()
+                                            newBundle.putLong("readPostIdx", postIdx)
+
+                                            // 이미지 업로드
+                                            if(uploadUri != null){
+                                                PostRepository.uploadImage(uploadUri!!, fileName) {
+                                                    Snackbar.make(fragmentPostWriteBinding.root, "저장되었습니다", Snackbar.LENGTH_SHORT).show()
+                                                    mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT, true, newBundle)
+                                                }
+                                            } else {
+                                                Snackbar.make(fragmentPostWriteBinding.root, "저장되었습니다", Snackbar.LENGTH_SHORT).show()
+                                                mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT, true, newBundle)
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-
                     true
                 }
             }
+
             textInputEditTextPostWriteSubject.run {
                 requestFocus()
             }
 
             // 게시판 종류 버튼
-            buttonPostWriteType.run{
-                setOnClickListener {
+            buttonPostWriteType.setOnClickListener {
                     val builder = MaterialAlertDialogBuilder(mainActivity)
                     builder.setTitle("게시판 종류")
-                    builder.setItems(mainActivity.boardTypeList){ dialogInterface: DialogInterface, i: Int ->
+                    builder.setItems(mainActivity.boardTypeList) { dialogInterface: DialogInterface, i: Int ->
                         boardType = i + 1
-                        text = mainActivity.boardTypeList[i]
+                        buttonPostWriteType.text = mainActivity.boardTypeList[i]
                     }
                     builder.setNegativeButton("취소", null)
                     builder.show()
