@@ -1,5 +1,6 @@
 package com.test.board_project
 
+import android.content.DialogInterface
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -12,14 +13,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
 import com.test.board_project.databinding.FragmentPostReadBinding
+import com.test.board_project.vm.PostViewModel
 
 class PostReadFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var fragmentPostReadBinding: FragmentPostReadBinding
+
+    lateinit var postViewModel: PostViewModel
+
+    var readPostIdx = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +35,31 @@ class PostReadFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         fragmentPostReadBinding = FragmentPostReadBinding.inflate(inflater)
+
+        postViewModel = ViewModelProvider(mainActivity)[PostViewModel::class.java]
+        postViewModel.run{
+            postSubject.observe(mainActivity) {
+                fragmentPostReadBinding.textInputEditTextPostReadSubject.setText(it)
+            }
+            postText.observe(mainActivity) {
+                fragmentPostReadBinding.textInputEditTextPostReadContent.setText(it)
+            }
+            postNickname.observe(mainActivity) {
+                fragmentPostReadBinding.textInputEditTextPostReadUserName.setText(it)
+            }
+            postWriteDate.observe(mainActivity) {
+                fragmentPostReadBinding.textInputEditTextPostReadWriteDate.setText(it)
+            }
+            postFileName.observe(mainActivity) {
+                if(it == "None"){
+                    fragmentPostReadBinding.imageViewPostRead.visibility = View.GONE
+                }
+            }
+            postImage.observe(mainActivity) {
+                fragmentPostReadBinding.imageViewPostRead.visibility = View.VISIBLE
+                fragmentPostReadBinding.imageViewPostRead.setImageBitmap(it)
+            }
+        }
 
         fragmentPostReadBinding.run{
 
@@ -90,6 +122,10 @@ class PostReadFragment : Fragment() {
                 }
             }
         }
+
+        readPostIdx = arguments?.getLong("readPostIdx")!!
+        // 게시글 정보 가져오기
+        postViewModel.setPostReadData(readPostIdx.toDouble())
 
         return fragmentPostReadBinding.root
     }
