@@ -1,6 +1,7 @@
 package com.test.board_project
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,6 @@ class PostListFragment : Fragment() {
                             mainActivity.replaceFragment(MainActivity.POST_WRITE_FRAGMENT, true, null)
                         }
                     }
-
                     true
                 }
             }
@@ -71,6 +71,9 @@ class PostListFragment : Fragment() {
                 // divider 설정
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
+
+            // 게시판 타입 번호를 전달하여 게시글 정보를 가져온다.
+            postViewModel.getPostAll(arguments?.getLong("postType")!!)
         }
 
         return fragmentPostListBinding.root
@@ -115,7 +118,7 @@ class PostListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
             holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
-            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
+            holder.rowPostListNickName.text = "사용자 닉네임"
         }
     }
 
