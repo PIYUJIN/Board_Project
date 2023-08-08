@@ -59,6 +59,22 @@ class PostListFragment : Fragment() {
 
             searchViewPostList.run{
                 hint = "검색어를 입력해주세요"
+
+                addTransitionListener { searchView, previousState, newState ->
+                    // 서치바를 눌러 서치뷰가 보일 때
+                    if(newState == com.google.android.material.search.SearchView.TransitionState.SHOWING) {
+                        postViewModel.resetPostList()
+                    }
+                    // 서치뷰의 백버튼을 눌러 서치뷰가 사라지고 서치바가 보일 때
+                    else if(newState == com.google.android.material.search.SearchView.TransitionState.HIDING) {
+                        postViewModel.getPostAll(arguments?.getLong("postType")!!)
+                    }
+                }
+
+                editText.setOnEditorActionListener { v, actionId, event ->
+                    postViewModel.getSearchPostList(arguments?.getLong("postType")!!, editText.text.toString())
+                    true
+                }
             }
 
             recyclerViewPostListAll.run{
