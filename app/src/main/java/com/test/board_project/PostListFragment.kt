@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import com.test.board_project.MainActivity.Companion.POST_READ_FRAGMENT
 import com.test.board_project.databinding.FragmentPostListBinding
 import com.test.board_project.databinding.RowPostListBinding
@@ -35,6 +37,7 @@ class PostListFragment : Fragment() {
         postViewModel.run{
             postDataList.observe(mainActivity){
                 fragmentPostListBinding.recyclerViewPostListAll.adapter?.notifyDataSetChanged()
+                fragmentPostListBinding.recyclerViewPostListResult.adapter?.notifyDataSetChanged()
             }
         }
 
@@ -59,14 +62,14 @@ class PostListFragment : Fragment() {
             }
 
             recyclerViewPostListAll.run{
-                adapter = AllREcyclerViewAdapter()
+                adapter = AllRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
                 // divider 설정
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
 
             recyclerViewPostListResult.run{
-                adapter = ResultRecyclerViewAdapter()
+                adapter = AllRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
                 // divider 설정
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
@@ -74,19 +77,20 @@ class PostListFragment : Fragment() {
 
             // 게시판 타입 번호를 전달하여 게시글 정보를 가져온다.
             postViewModel.getPostAll(arguments?.getLong("postType")!!)
+
         }
 
         return fragmentPostListBinding.root
     }
 
-    // 모든 게시글 목록을 보여주는 리사이클러 뷰의 어뎁터
-    inner class AllREcyclerViewAdapter : RecyclerView.Adapter<AllREcyclerViewAdapter.AllViewHolder>(){
-        inner class AllViewHolder(rowPostListBinding: RowPostListBinding) : RecyclerView.ViewHolder(rowPostListBinding.root){
+    // 게시글 목록을 보여주는 리사이클러 뷰의 어뎁터
+    inner class AllRecyclerViewAdapter : RecyclerView.Adapter<AllRecyclerViewAdapter.AllViewHolder>() {
+        inner class AllViewHolder(rowPostListBinding: RowPostListBinding) : RecyclerView.ViewHolder(rowPostListBinding.root) {
 
             val rowPostListSubject: TextView
             val rowPostListNickName: TextView
 
-            init{
+            init {
                 rowPostListSubject = rowPostListBinding.rowPostListSubject
                 rowPostListNickName = rowPostListBinding.rowPostListNickName
 
@@ -118,47 +122,7 @@ class PostListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
             holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
-            holder.rowPostListNickName.text = "사용자 닉네임"
-        }
-    }
-
-
-    // 검색 결과 게시글 목록을 보여주는 리사이클러 뷰의 어뎁터
-    inner class ResultRecyclerViewAdapter : RecyclerView.Adapter<ResultRecyclerViewAdapter.ResultViewHolder>(){
-        inner class ResultViewHolder(rowPostListBinding: RowPostListBinding) : RecyclerView.ViewHolder(rowPostListBinding.root){
-
-            val rowPostListSubject: TextView
-            val rowPostListNickName: TextView
-
-            init{
-                rowPostListSubject = rowPostListBinding.rowPostListSubject
-                rowPostListNickName = rowPostListBinding.rowPostListNickName
-
-                rowPostListBinding.root.setOnClickListener {
-                    mainActivity.replaceFragment(POST_READ_FRAGMENT, true, null)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
-            val rowPostListBinding = RowPostListBinding.inflate(layoutInflater)
-            val allViewHolder = ResultViewHolder(rowPostListBinding)
-
-            rowPostListBinding.root.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            return allViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return postViewModel.postDataList.value?.size!!
-        }
-
-        override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
-            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
+//            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 }
