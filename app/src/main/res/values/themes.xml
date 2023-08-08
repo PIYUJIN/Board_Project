@@ -8,7 +8,7 @@
                 <item name="colorPrimary">@color/material_dynamic_primary40</item>
         <!-- 상단 상태바 색상 -->
                 <item name="colorPrimaryDark">@color/material_dynamic_tertiary99</item>
-        <!-- 상태바의 색상의 밝은 색이므로 그에 맞는 색상으로 정보를 보여줘~~ -->
+        <!-- 상태바의 색상의 밝은 색이므로 그에 맞는 색상으로 설정 -->
                 <item name="android:windowLightStatusBar">true</item>
     </style>
 

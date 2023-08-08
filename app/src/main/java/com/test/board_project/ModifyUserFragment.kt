@@ -25,10 +25,12 @@ class ModifyUserFragment : Fragment() {
 
         fragmentModifyUserBinding.run {
             buttonModifyUserInfoAccept.setOnClickListener {
+
                 var modifyUserPW = textInputEditTextModifyUserPassword.text.toString()
                 var modifyUserPWCheck = textInputEditTextModifyUserPasswordCheck.text.toString()
                 var modifyUserName = textInputEditTextModifyUserInfoUserName.text.toString()
                 var modifyUserAge = textInputEditTextModifyUserInfoUserAge.text.toString()
+
                 if(modifyUserPW.isNotEmpty() || modifyUserPWCheck.isNotEmpty()) {
                     if (modifyUserPW != modifyUserPWCheck) {
                         val builder = MaterialAlertDialogBuilder(mainActivity).apply {
